@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .content-part {
+            width: 1000px;
+            height: 674px;
+            margin: 0 auto;
+            margin-bottom: 30px;
+            background-color: #ccc;
+            font-size: 50px;
+        }
+
+        .floorNav {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            width: 120px;
+            height: 200px;
+            background-color: orange;
+        }
+
+        .floorNav ul {
+            list-style: none;
+        }
+
+        .floorNav ul li {
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        .floorNav ul li.current {
+            background-color: purple;
+            color: white;
+            transition: all 0.5s;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="floorNav">
+        <ul id="list">
+            <li data-n="科技" class="current">科技</li>
+            <li data-n="体育">体育</li>
+            <li data-n="新闻">新闻</li>
+            <li data-n="娱乐">娱乐</li>
+            <li data-n="视频">视频</li>
+        </ul>
+    </nav>
+    <section class="content-part" data-m="科技">
+        科技栏目
+    </section>
+    <section class="content-part" data-m="体育">
+        体育栏目
+    </section>
+    <section class="content-part" data-m="新闻">
+        新闻栏目
+    </section>
+    <section class="content-part" data-m="娱乐">
+        娱乐栏目
+    </section>
+    <section class="content-part" data-m="视频">
+        视频栏目
+    </section>
+
+    <script>
+        var list = document.getElementById("list");
+        var contentParts = document.querySelectorAll(".content-part");
+        var lis = document.querySelectorAll("#list li");
+        list.onclick = function (e) {
+            var n = e.target.getAttribute("data-n");
+            var contentPart = document.querySelector(`[data-m=${n}]`);
+            // document.documentElement.scrollTop = contentPart.offsetTop;
+            document.documentElement.scrollTo({
+                top: contentPart.offsetTop,
+                behavior: "smooth"
+            })
+        }
+
+        var arr = [];
+
+        for (var i in contentParts) {
+            if (!isNaN(i)) {
+                arr.push(contentParts[i].offsetTop);
+            }
+        }
+
+
+        window.onscroll = function () {
+            var scrollTop = document.scrollingElement.scrollTop;
+            for (var i in arr) {
+                if (scrollTop <= arr[i]) {
+                    var old = document.querySelector('.current');
+                    old && old.classList.remove('current');
+                    lis[i].classList.add('current');
+                    break;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
