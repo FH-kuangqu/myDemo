@@ -24,7 +24,7 @@ const doms = {
 };
 
 // 切换逻辑
-var change = {
+const change = {
     lock: true,
 
     /**
