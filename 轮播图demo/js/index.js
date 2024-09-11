@@ -80,7 +80,7 @@ const change = {
         doms.preImg.style.transform = "translateX(0)";
 
         if (timer) clearTimeout(timer);
-        setTimeout(() => {
+        var timer =  setTimeout(() => {
             doms.index = doms.preIndex();
             change.changeImg();
             change.lock = true;
