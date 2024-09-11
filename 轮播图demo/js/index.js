@@ -1,101 +1,97 @@
+//数据的绑定和逻辑
+const doms = {
+    cur: document.querySelector('.cur'),
+    next: document.querySelector('.next'),
+    pre: document.querySelector('.pre'),
+    curImg: document.querySelector('.cur img'),
+    nextImg: document.querySelector('.next img'),
+    preImg: document.querySelector('.pre img'),
+    nextControl: document.querySelector('.nextControl'),
+    preControl: document.querySelector('.preControl'),
+    arr: [
+        "/images/1.png",
+        "/images/2.png",
+        "/images/3.png",
+        "/images/4.png"
+    ],
+    index: 0,
+    nextIndex: () => {
+        return doms.index == doms.arr.length - 1 ? 0 : doms.index + 1;
+    },
+    preIndex: () => {
+        return doms.index == 0 ? doms.arr.length - 1 : doms.index - 1;
+    },
+};
 
-var preControl = document.querySelector('.preControl');
-var nextControl = document.querySelector('.nextControl');
-var pre = document.querySelector('.pre');
-var cur = document.querySelector('.cur');
-var next = document.querySelector('.next');
-var preImg = document.querySelector('.pre img');
-var curImg = document.querySelector('.cur img');
-var nextImg = document.querySelector('.next img');
+// 切换逻辑
+var change = {
+    lock: true,
 
+    /**
+ * 切换图片显示状态
+ * 
+ * 此函数负责切换图片的显示状态，包括当前图片、下一张图片和上一张图片
+ * 它更新了图片源，调整了图片的位置和样式，以准备展示下一张或上一张图片
+ */
+    changeImg: () => {
+        doms.curImg.src = doms.arr[doms.index];
 
-var arr = [
-    "./images/1.png",
-    "./images/2.png",
-    "./images/3.png",
-    "./images/4.png"
-]
+        doms.nextImg.src = doms.arr[doms.nextIndex()];
+        doms.nextImg.style.transform = "translateX(50%)";
+        doms.nextImg.style.transition = "none";
+        doms.next.style.transition = "none";
+        doms.next.style.width = "0";
 
-var index = 0;
+        doms.preImg.src = doms.arr[doms.preIndex()];
+        doms.preImg.style.transform = "translateX(-50%)";
+        doms.preImg.style.transition = "none";
+        doms.pre.style.transition = "none";
+        doms.pre.style.width = "0";
+    },
 
-// 获取下标
-function getPreIndex() {
-    return index == 0 ? arr.length - 1 : index - 1;
+    /**
+     * 切换到下一张图片
+     */
+    nextImg: () => {
+        if (!change.lock) return;
+        change.lock = false;
+        doms.next.style.transition = "all 1s";
+        doms.next.style.width = "100%";
+        doms.nextImg.style.transition = "all 1s";
+        doms.nextImg.style.transform = "translateX(0)";
+
+        if (timer) clearTimeout(timer);
+        var timer = setTimeout(() => {
+            doms.index = doms.nextIndex();
+            change.changeImg();
+            change.lock = true;
+        }, 1000);
+    },
+
+    /**
+     * 切换到上一张图片
+     */
+    preImg: () => {
+        if (!change.lock) return;
+        change.lock = false;
+        doms.pre.style.transition = "all 1s";
+        doms.pre.style.width = "100%";
+        doms.preImg.style.transition = "all 1s";
+        doms.preImg.style.transform = "translateX(0)";
+
+        if (timer) clearTimeout(timer);
+        setTimeout(() => {
+            doms.index = doms.preIndex();
+            change.changeImg();
+            change.lock = true;
+        }, 1000);
+    },
 }
-function getNextIndex() {
-    return index == arr.length - 1 ? 0 : index + 1;
-}
 
-
-// 切换数据
-function change() {
-    var preIndex = getPreIndex();
-    var nextIndex = getNextIndex();
-
-    preImg.src = arr[preIndex];
-    curImg.src = arr[index];
-    nextImg.src = arr[nextIndex];
-    preImg.style.transform = "translateX(-50%)";
-    nextImg.style.transform = "translateX(50%)";
-}
-
-// 切换函数
-var lock = true;
-
-function getNextImg() {
-    if (!lock) return;
-    lock = false;
-    next.style.transition = "all 1s";
-    next.style.width = "100%";
-    nextImg.style.transition = "all 1s";
-    nextImg.style.transform = "translateX(0)";
-
-    clearTimeout(nextTimer);
-    var nextTimer = setTimeout(function () {
-        next.style.transition = "none";
-        next.style.width = "0";
-        nextImg.style.transition = "none";
-        index == arr.length - 1 ? index = 0 : index++;
-        change();
-        lock = true;
-    }, 1000)
-
-}
-function getPreImg() {
-    if (!lock) return;
-    lock = false;
-    pre.style.transition = "all 1s";
-    pre.style.width = "100%";
-    preImg.style.transition = "all 1s";
-    preImg.style.transform = "translateX(0)";
-
-    clearTimeout(preTimer);
-    var preTimer = setTimeout(function () {
-        pre.style.transition = "none";
-        pre.style.width = "0";
-        preImg.style.transition = "none";
-        index == 0 ? index = arr.length - 1 : index--;
-        change();
-        lock = true;
-    }, 1000)
-}
-
-var timer = setInterval(function () {
-    getNextImg();
-}, 5000)
-
-// 点击事件
-nextControl.onclick = function () {
-    getNextImg();
-    clearInterval(timer);
-    timer = setInterval(function () {
-        getNextImg();
-    }, 5000)
-}
-preControl.onclick = function () {
-    getPreImg();
-    clearInterval(timer);
-    timer = setInterval(function () {
-        getNextImg();
-    }, 5000)
-}
+//事件监听
+doms.nextControl.onclick = () => {
+    change.nextImg();
+};
+doms.preControl.onclick = () => {
+    change.preImg();
+};
