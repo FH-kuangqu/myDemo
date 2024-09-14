@@ -51,7 +51,6 @@ var newsRight = {
 
 //pic 轮播
 function changePic(){
-    // doms.picIndex = (doms.picIndex + 1) % doms.pics.length;
     if(doms.picIndex >= 1){
         doms.pic.style.top = -doms.pics[doms.picIndex] + "px";
         doms.pic.style.transition = "all .3s";
