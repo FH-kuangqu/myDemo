@@ -27,9 +27,11 @@ let bannerTimer = setInterval(()=>{
 doms.newsBtn.forEach((li, index) => {
     li.onmousemove = () => {
         if(newsTimer) clearInterval(newsTimer);
+
         newsLeft.news(index);
         newsLeft.indicator(index);
         doms.newsIndex = index;
+        
         newsTimer = setInterval(()=>{
             doms.newsIndex == 3 ? doms.newsIndex = 0 : doms.newsIndex++;
             newsLeft.news(doms.newsIndex);
