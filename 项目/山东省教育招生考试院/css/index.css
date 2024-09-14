@@ -212,6 +212,7 @@ nav .contain li:hover {
   left: 0;
   width: 1520px;
   list-style: none;
+  transition: all 0.5s;
 }
 .news .left #news li {
   float: left;
@@ -351,20 +352,20 @@ nav .contain li:hover {
   height: 70px;
   overflow: hidden;
 }
-.pic .wrap .pic-list #piclist {
+.pic .wrap .pic-list #picList {
   position: relative;
   top: 0;
   list-style: none;
 }
-.pic .wrap .pic-list #piclist li {
+.pic .wrap .pic-list #picList li {
   height: 70px;
   line-height: 70px;
 }
-.pic .wrap .pic-list #piclist li a {
+.pic .wrap .pic-list #picList li a {
   float: left;
   width: 19%;
 }
-.pic .wrap .pic-list #piclist li a img {
+.pic .wrap .pic-list #picList li a img {
   width: 140px;
   height: 48px;
   vertical-align: middle;
@@ -471,6 +472,9 @@ footer .fotnav ul li a span {
   float: left;
   width: 86px;
   line-height: 18px;
+}
+footer .fotnav ul li:hover {
+  background-color: #2668b2;
 }
 footer .fotnav select {
   float: right;
