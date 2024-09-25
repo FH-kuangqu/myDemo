@@ -62,6 +62,7 @@ function change(i) {
         setTimeout(() => {
             doms.img.style.transition = "none";
             doms.img.style.transform = `translateX(0)`;
+            doms.index++
         }, 500);
         return;
     }
